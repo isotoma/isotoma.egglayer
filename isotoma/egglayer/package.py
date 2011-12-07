@@ -36,6 +36,9 @@ class Package(zipfile.ZipFile):
         """ Assemble a path by prefixing it with the root path """
         return "%s/%s" % (self.get_root(), name)
 
+    def get_code_prefix(self, name):
+        return "%s/%s/%s" % (self.get_root(), self.name.replace(".", os.path.sep), name)
+
     def get_egginfo_prefix(self, name):
         """ Assemble a path to some metadata in the egg-info directory """
         return "%s/%s/%s" % (self.get_root(), "%s.egg-info" % self.name, name)
@@ -86,6 +89,13 @@ class Package(zipfile.ZipFile):
 
     def add(self, name, data):
         self.writestr(self.get_prefix(name), data)
+
+    def add_code(self, name, data):
+        self.writestr(self.get_code_prefix(name), data)
+
+    def add_contents(self, addition):
+        for path, data in addition.get_contents():
+            self.add(path, data)
 
     def egginfo(self, name, data):
         self.writestr(self.get_egginfo_prefix(name), data)
