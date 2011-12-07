@@ -1,0 +1,8 @@
+.installed.cfg
+bin/
+develop-eggs/
+eggs/
+isotoma.egglayer.egg-info/
+*.pyc
+parts/
+var/

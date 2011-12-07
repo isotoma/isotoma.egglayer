@@ -1,0 +1,7 @@
+{% for ep in package.entrypoints %}
+[{{ ep }}]
+{% for k in package.entrypoints[k] %}
+{{ k }} = {{ package.entrypoints[k] }}
+{% endfor %}
+{% endfor %}
+
