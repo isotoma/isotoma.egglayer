@@ -32,7 +32,7 @@ Django HTTPResonse::
 
 You don't need to worry about directories. You just add files::
 
-    p.add("test/package/__init__.py", "print 'Hello, world!')
+    p.add("test/package/__init__.py", "print 'Hello, world!'")
 
 Any files you add are tracked so that the SOURCES.txt for the egg is correct.
 
@@ -40,6 +40,8 @@ When you have finished adding content to the package you call the close()
 method. This will generate the egg-info directory and a setup.py::
 
     p.close()
+
+Python will automatically call ``close()`` during ``__del__`` if you do not.
 
 
 Dynamically generating packages from Django
