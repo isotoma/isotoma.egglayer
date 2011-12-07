@@ -1,0 +1,19 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:five="http://namespaces.zope.org/five"
+    xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+    xmlns:i18n="http://namespaces.zope.org/i18n"
+    >
+
+{% for profile in package.profiles %}
+    <genericsetup:registerProfile
+        name="{{ profile }}"
+        title="{{ package.name }}:{{ profile }}"
+        directory="profiles/{{ profile }}"
+        description="{{ package.name }} - {{ profile }}"
+        provides="Products.GenericSetup.interfaces.EXTENSION"
+        />
+{% endfor %}
+
+</configure>
+
