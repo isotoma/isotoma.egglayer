@@ -18,8 +18,8 @@ from jinja2 import Environment, PackageLoader
 
 class Package(zipfile.ZipFile):
 
-    def __init__(self, response, name, version):
-        zipfile.ZipFile.__init__(self, response, mode='w')
+    def __init__(self, io, name, version):
+        zipfile.ZipFile.__init__(self, io, mode='w')
         self.name = name
         self.version = version
         self.requires = []
