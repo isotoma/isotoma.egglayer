@@ -1,7 +1,7 @@
-{% for ep in package.entrypoints %}
+{% for ep, pairs in package.entrypoints.items() %}
 [{{ ep }}]
-{% for k in package.entrypoints[k] %}
-{{ k }} = {{ package.entrypoints[k] }}
+{% for k, v in pairs %}
+{{ k }} = {{ v }}
 {% endfor %}
 {% endfor %}
 

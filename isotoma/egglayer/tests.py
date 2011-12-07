@@ -54,6 +54,8 @@ class TestPackageBuilding(TestCase):
         SOURCES = ["test-1.0/" + x for x in z.open('test-1.0/test.egg-info/SOURCES.txt').read().splitlines()]
         self.assertEqual(SOURCES, p.sources)
 
+        self.assertEqual(z.open("test-1.0/test.egg-info/entry_points.txt").read().strip(), "")
+
     def test_empty_namespace_package(self):
         s = StringIO()
         p = Package(s, "test.namespace", "1.0")
@@ -81,6 +83,8 @@ class TestPackageBuilding(TestCase):
 
         self.assert_(self.is_namespace_file(z, "test.namespace-1.0/test/__init__.py"))
         self.assert_(not self.is_namespace_file(z, "test.namespace-1.0/test/namespace/__init__.py"))
+
+        self.assertEqual(z.open("test.namespace-1.0/test.namespace.egg-info/entry_points.txt").read().strip(), "")
 
     def test_empty_double_namespace_package(self):
         s = StringIO()
@@ -111,4 +115,18 @@ class TestPackageBuilding(TestCase):
         self.assert_(self.is_namespace_file(z, "test.namespace.another-1.0/test/__init__.py"))
         self.assert_(self.is_namespace_file(z, "test.namespace.another-1.0/test/namespace/__init__.py"))
         self.assert_(not self.is_namespace_file(z, "test.namespace.another-1.0/test/namespace/another/__init__.py"))
+
+        self.assertEqual(z.open("test.namespace.another-1.0/test.namespace.another.egg-info/entry_points.txt").read().strip(), "")
+
+
+class TestPlonePackage(TestCase):
+
+    def test_z3c_auto(self):
+        s = StringIO()
+        p = PlonePackage(s, "testplone", "0.0")
+        p.close()
+
+        z = zipfile.ZipFile(s)
+
+        self.assertEqual(z.open("testplone-0.0/testplone.egg-info/entry_points.txt").read().strip(), "[z3c.autoinclude.plugin]\n\ntarget = plone")
 
