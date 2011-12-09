@@ -33,6 +33,9 @@ class PlonePackage(Package):
         self.profiles.append(profile)
 
     def close(self):
+        if self.fp is None:
+            return
+
         # Advertise this package to Zope
         self.entrypoint('z3c.autoinclude.plugin', 'target', 'plone')
 

@@ -137,7 +137,6 @@ class Package(zipfile.ZipFile):
 
         # Dump a list of all files in the egg into the egg
         self.egginfo("SOURCES.txt", "\n".join(self.get_sources()))
-        self.locked = True
 
         return zipfile.ZipFile.close(self)
 
