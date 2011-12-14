@@ -14,12 +14,39 @@
 
 from isotoma.egglayer.package import Package
 
+class Registry(object):
+
+    def __init__(self):
+        self.values = {}
+
+    def set(self, name, value):
+        self.values[name] = value
+
+    def render(self, pkg):
+        return pkg.get_template('plone/registry.xml.j2', registry=self.values)
+
+
+class PropertiesTool(object):
+
+    def __init__(self):
+        self.sheets = {}
+
+    def set(self, sheet, key, value):
+        s = self.sheets.setdefault(sheet, {})
+        s[key] = value
+
+    def render(self, pkg):
+        return pkg.get_template('plone/propertiestool.xml.j2', sheets=self.sheets)
+
+
 class Profile(object):
 
     def __init__(self, profile_name='default'):
         self.profile_name = profile_name
         self.dependencies = []
         self.contents = []
+        self.registry = Registry()
+        self.propertiestool = PropertiesTool()
 
     def add(self, path, contents):
         self.contents.append((path, contents))
@@ -27,6 +54,13 @@ class Profile(object):
     def get_contents(self, pkg):
         for path, contents in self.contents:
             yield self.get_code_prefix("profiles/%s/%s" % (self.profile_name, path)), contents
+
+        if self.registry.values:
+            yield "profiles/%s/registry.xml" % self.profile_name, self.registry.render(pkg)
+
+        if self.propertiestool.sheets:
+            yield "profiles/%s/propertiestool.xml" % self.profile_name, self.propertiestool.render(pkg)
+
         yield "profiles/%s/metadata.xml" % self.profile_name, pkg.get_template('plone/metadata.xml.j2', profile=self)
 
 

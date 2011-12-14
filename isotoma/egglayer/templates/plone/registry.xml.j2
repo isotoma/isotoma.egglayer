@@ -1,0 +1,24 @@
+<registry>
+
+{% for key, value in registry.items() %}
+    <record name="{{ key }}">
+    {% if value is string %}
+    <value>{{ value }}</value>
+    {% elif value is mapping %}
+    <value>
+        {% for k, v in value.items() %}
+        <element key="{{ k }}">{{ v }}</element>
+        {% endfor %}
+    </value>
+    {% elif value is iterable %}
+    <value>
+        {% for val in value %}
+        <element>{{ val }}</element>
+        {% endfor %}
+    </value>
+    {% else %}
+    {% endif %}
+    </record>
+{% endfor %}
+
+</registry>

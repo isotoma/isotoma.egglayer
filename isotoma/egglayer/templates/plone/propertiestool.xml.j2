@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<object name="portal_properties" meta_type="Plone Properties Tool">
+{% for sheetname, sheet in sheets.items() %}
+  <object name="{{ sheetname }}" meta_type="Plone Property Sheet">
+  {% for key, value in sheet.items() %}
+    <property name="{{ key }}" type="string" purge="true">{{ value }}</property>
+  {% endfor %}
+  </object>
+{% endfor %}
+</object>

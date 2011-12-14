@@ -4,7 +4,17 @@ Changelog
 0.0.2 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add a helper for generating propertiestool.xml::
+
+      p = Profile("default")
+      p.propertiestool.set("site_properties", "someproperty", "somevalue")
+      pkg.add_profile(p)
+
+- Add a helper for generated records in registry.xml::
+
+      p = Profile("default")
+      p.registry.set("plone.app.theming.interfaces.IThemeSettings.hostnameBlacklist", ["localhost"])
+      pkg.add_profile(p)
 
 
 0.0.1 (2011-12-14)
