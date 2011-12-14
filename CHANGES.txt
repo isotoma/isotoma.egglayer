@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.0.2 (unreleased)
+0.0.2 (2011-12-14)
 ------------------
 
 - Add a helper for generating propertiestool.xml::
