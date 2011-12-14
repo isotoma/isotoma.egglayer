@@ -1,7 +1,7 @@
 Changelog
 =========
 
-0.0.1 (unreleased)
+0.0.1 (2011-12-14)
 ------------------
 
 - Some basic abstractions to help generating Plone GenericSetup profiles::
