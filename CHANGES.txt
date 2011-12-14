@@ -4,7 +4,21 @@ Changelog
 0.0.1 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Some basic abstractions to help generating Plone GenericSetup profiles::
+
+    p = Profile("default")
+    p.dependencies.extend([
+         "my.other.egg:default",
+         ])
+    pkg.add_profile(p)
+
+- Can inject raw zcml into conficture.zcml::
+
+     pkg.zcml_stanza.apend('<i18n:registerTranslations directory="locales"/>')
+
+- ``__init__.py`` will be automatically created for the root non-namespaced
+  folder in your project. For plone project it will have a no-op
+  ``initialize()`` that is referenced by configure.zcml.
 
 
 0.0.0 (2011-12-09)

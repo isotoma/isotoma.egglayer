@@ -19,6 +19,15 @@ class Profile(object):
     def __init__(self, profile_name='default'):
         self.profile_name = profile_name
         self.dependencies = []
+        self.contents = []
+
+    def add(self, path, contents):
+        self.contents.append((path, contents))
+
+    def get_contents(self, pkg):
+        for path, contents in self.contents:
+            yield self.get_code_prefix("profiles/%s/%s" % (self.profile_name, path)), contents
+        yield "profiles/%s/metadata.xml" % self.profile_name, pkg.get_template('plone/metadata.xml.j2', profile=self)
 
 
 class PlonePackage(Package):
@@ -27,6 +36,7 @@ class PlonePackage(Package):
         Package.__init__(self, io, name, version)
         self.zcml_include_package = []
         self.zcml_include_file = []
+        self.zcml_stanzas = []
         self.profiles = []
 
     def add_profile(self, profile):
@@ -35,6 +45,18 @@ class PlonePackage(Package):
     def close(self):
         if self.fp is None:
             return
+
+        initpy = self.get_code_prefix("__init__.py")
+        if not initpy in self.sources:
+            self.add_code("__init__.py", "def initialize(*args): pass\n")
+
+        for p in self.profiles:
+            for path, code in p.get_contents(self):
+                self.add_code(path, code)
+
+        if len(self.profiles) > 0:
+            self.add_code("profiles.zcml", self.get_template("plone/profiles.zcml.j2"))
+            self.zcml_include_file.append("profiles.zcml")
 
         # Advertise this package to Zope
         self.entrypoint('z3c.autoinclude.plugin', 'target', 'plone')

@@ -66,11 +66,11 @@ class Package(zipfile.ZipFile):
     def get_setup_py(self):
         return self.get_template("setup.py.j2")
 
-    def get_template(self, tmpl):
+    def get_template(self, tmpl, **context):
+        context["package"] = self
+
         t = self.environment.get_template(tmpl)
-        return t.render(
-            package=self,
-            )
+        return t.render(**context)
 
     def writestr(self, name, data, compress_type=None):
         """ We override writestr so we can catalog all files added to the egg """
@@ -107,6 +107,10 @@ class Package(zipfile.ZipFile):
         # If close is called twice don't get upset
         if self.fp is None:
             return
+
+        initpy = self.get_code_prefix("__init__.py")
+        if not initpy in self.sources:
+            self.add_code("__init__.py", "")
 
         self.add("setup.py", self.get_setup_py())
 

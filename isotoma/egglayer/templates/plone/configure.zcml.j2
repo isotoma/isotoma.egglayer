@@ -13,8 +13,11 @@
     <include file="{{ import }}" />
 {% endfor %}
 
-    <five:registerPackage package="." />
-    #<five:registerPackage package="." initialize=".initialize" />
+{% for stanza in package.zcml_stanzas %}
+    {{ stanza }}
+{% endfor %}
+
+    <five:registerPackage package="." initialize=".initialize" />
 
 </configure>
 

@@ -7,10 +7,10 @@
 
 {% for profile in package.profiles %}
     <genericsetup:registerProfile
-        name="{{ profile }}"
-        title="{{ package.name }}:{{ profile }}"
-        directory="profiles/{{ profile }}"
-        description="{{ package.name }} - {{ profile }}"
+        name="{{ profile.profile_name }}"
+        title="{{ package.name }}:{{ profile.profile_name }}"
+        directory="profiles/{{ profile.profile_name }}"
+        description="{{ package.name }} - {{ profile.profile_name }}"
         provides="Products.GenericSetup.interfaces.EXTENSION"
         />
 {% endfor %}
