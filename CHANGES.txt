@@ -4,7 +4,7 @@ Changelog
 0.0.3 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Make plone xmlns available by default in configure.zcml
 
 
 0.0.2 (2011-12-14)
