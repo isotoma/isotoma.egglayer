@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<site>
+{% for key, value in properties.items() %}
+  {% if value == True or value == False %}
+  <property name="{{ key }}" type="boolean">{{ value }}</property>
+  {% elif value is iterable %}
+  <property name="{{ key }}" type="lines">
+  {% for i in value %}
+    <element value="{{ i }}" />
+  {% endfor %}
+  </property>
+  {% else %}
+  <property name="{{ key }}" type="string">{{ value }}</property>
+  {% endif %}
+{% endfor %}
+</site>

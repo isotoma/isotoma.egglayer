@@ -4,7 +4,7 @@ Changelog
 0.0.4 (unreleased)
 ------------------
 
-- Nothing changed yet.
+- Add a helper for creating properties.xml files.
 
 
 0.0.3 (2011-12-21)

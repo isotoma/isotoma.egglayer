@@ -39,6 +39,18 @@ class PropertiesTool(object):
         return pkg.get_template('plone/propertiestool.xml.j2', sheets=self.sheets)
 
 
+class Properties(object):
+
+    def __init__(self):
+        self.properties = {}
+
+    def set(self, key, value):
+        self.properties[key] = value
+
+    def render(self, pkg):
+        return pkg.get_template('plone/properties.xml.j2', properties=self.properties)
+
+
 class Profile(object):
 
     def __init__(self, profile_name='default'):
@@ -47,6 +59,7 @@ class Profile(object):
         self.contents = []
         self.registry = Registry()
         self.propertiestool = PropertiesTool()
+        self.properties = Properties()
 
     def add(self, path, contents):
         self.contents.append((path, contents))
@@ -60,6 +73,9 @@ class Profile(object):
 
         if self.propertiestool.sheets:
             yield "profiles/%s/propertiestool.xml" % self.profile_name, self.propertiestool.render(pkg)
+
+        if self.properties.properties:
+            yield "profiles/%s/properties.xml" % self.profile_name, self.properties.render(pkg)
 
         yield "profiles/%s/metadata.xml" % self.profile_name, pkg.get_template('plone/metadata.xml.j2', profile=self)
 
